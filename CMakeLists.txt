@@ -16,7 +16,11 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(main src/main.cpp
         src/Game.cpp
-        header/Game.h)
+        header/Game.h
+        src/UI.cpp
+        header/UI.h
+        src/UIElement.cpp
+        header/UIElement.h)
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::System SFML::Graphics SFML::Window SFML::Audio SFML::Network)
 

@@ -1,12 +1,16 @@
-#include "../header/stdafx.h"
-
+#include "stdafx.h"
+#include "UIElement.h"
 
 
 class Game {
 private:
     RenderWindow window;
     VideoMode vm;
-
+    View mainView;
+    View UIView;
+    bool UI;
+    UIElement ue;
+    Texture mainTexture;
 public:
     Game();
     ~Game();
@@ -15,6 +19,7 @@ public:
     void update(Time dt);
     void render();
     bool isOpen();
+    void pollEvents();
 };
 
 
