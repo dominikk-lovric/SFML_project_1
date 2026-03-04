@@ -11,6 +11,7 @@ private:
     bool UI;
     UIElement ue;
     Texture mainTexture;
+    int i;
 public:
     Game();
     ~Game();
