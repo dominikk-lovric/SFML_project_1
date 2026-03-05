@@ -3,7 +3,7 @@
 int main() {
 	Game game;
 	Clock clock;
-	while (game.isOpen()) {
+	while (game.getWindow().isOpen()) {
 		sf::Time deltaTime = clock.restart();
 		game.update(deltaTime);
 

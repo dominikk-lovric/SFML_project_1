@@ -33,10 +33,10 @@ void UIElement::render(RenderWindow& window) {
     window.draw(*sprite);
 }
 
-void UIElement::update() {
-    if (abs((sprite->getPosition()-movePos).length())>1)moveUpdate();
-    else if (abs((sprite->getPosition()-movePos).length())>0) sprite->setPosition(movePos);
+void UIElement::update(RenderWindow& window,View& view) {
+    if (sprite->getPosition()!=movePos)moveUpdate();
     if (sprite->getScale()!=scaleTo)scaleUpdate();
+    updateHover(window, view);
 }
 
 void UIElement::moveUpdate() {
@@ -74,6 +74,14 @@ void UIElement::scale(Vector2f finalScale, float speed, float lerp, int dir) {
 
 Vector2f UIElement::getScale() {
     return sprite->getScale();
+}
+
+void UIElement::updateHover(RenderWindow& window, View& view) {
+    Vector2f gmp;
+    gmp=view.getCenter()-view.getSize()/2.f+Vector2f((float)Mouse::getPosition(window).x, (float)Mouse::getPosition(window).y);
+    if(sprite->getGlobalBounds().contains(gmp)) {
+        
+    }
 }
 
 void UIElement::setPosition(Vector2f newPosition) {

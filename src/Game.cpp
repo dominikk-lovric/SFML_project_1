@@ -23,8 +23,8 @@ void Game::initWindow() {
     ue.moveConst({-225,-150});
 }
 
-RenderWindow Game::getWindow() {
-    return std::move(this->window);
+RenderWindow& Game::getWindow() {
+    return this->window;
 }
 
 
@@ -33,7 +33,7 @@ RenderWindow Game::getWindow() {
 
 void Game::update(Time dt) {
     pollEvents();
-    ue.update();
+    ue.update(window, mainView);
     if (UI)window.setView(UIView);
     else window.setView(mainView);
 }

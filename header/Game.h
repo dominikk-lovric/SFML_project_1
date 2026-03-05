@@ -16,7 +16,7 @@ public:
     Game();
     ~Game();
     void initWindow();
-    RenderWindow getWindow();
+    RenderWindow& getWindow();
     void update(Time dt);
     void render();
     bool isOpen();

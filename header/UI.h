@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-
-
 class UI {
 private:
     Vector2f position;
