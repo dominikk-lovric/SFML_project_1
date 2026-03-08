@@ -1,7 +1,6 @@
 #include "../header/Game.h"
 Game::Game() {
     initWindow();
-
 }
 
 Game::~Game() {
@@ -14,13 +13,17 @@ void Game::initWindow() {
     window.create(vm, "game window", Style::Default);
     mainView.setSize({900,600});
     UIView.setSize({900,600});
-    mainView.setCenter(Vector2f(0,0)-mainView.getSize()/2.f);
+    mainView.setCenter(Vector2f(0,0)-mainView.getSize());
     UIView.setCenter(mainView.getCenter()-mainView.getSize());
     window.setView(mainView);
-    UI=false;
-    if (mainTexture.loadFromFile("../../assets/blue.png")) {}
-    ue.initUIElement(mainTexture, IntRect({0,0},{9,6}), mainView.getCenter(), {50,50});
-    ue.moveConst({-225,-150});
+    UIb=false;
+    if (blueTexture.loadFromFile("../../assets/blue.png")) {}
+    if (redTexture.loadFromFile("../../assets/red.png")) {}
+    ui.setView(UIView);
+    ui.addUIElement(UIElement(blueTexture, IntRect({0,0},{9,6}), UIView.getCenter(), {50,20}));
+    ui.addUIElement(UIElement(redTexture, IntRect({0,0},{9,9}), UIView.getCenter()-UIView.getSize()/2.f, {30,30}));
+
+
 }
 
 RenderWindow& Game::getWindow() {
@@ -33,9 +36,18 @@ RenderWindow& Game::getWindow() {
 
 void Game::update(Time dt) {
     pollEvents();
-    ue.update(window, mainView);
-    if (UI)window.setView(UIView);
-    else window.setView(mainView);
+    if (UIb) {
+        ui.update(window);
+        if (ui.getElementHover(0,window)) {ui.scaleUIElement(0,{100,20},0.01,1,6);
+            }
+        else {ui.scaleUIElement(0, {50,20},0.1,1,6);
+            }
+        if (ui.getElementHover(1,window)) {ui.scaleUIElement(1,{50,50},0.03,0.9975,3);
+        }
+        else {ui.scaleUIElement(1, {30,30},0.03,0.9975,3);
+        }
+    }
+
 }
 
 void Game::pollEvents() {
@@ -48,17 +60,14 @@ void Game::pollEvents() {
                 window.close();
             }
             if (kp->scancode==Keyboard::Scancode::Q) {
-                UI=!(UI);
+                UIb=!(UIb);
             }
             if (kp->scancode==Keyboard::Scancode::E) {
                 i=++i%9;
             }
             if (kp->scancode==Keyboard::Scancode::D) {
-                ue.scale(ue.getScale()+Vector2f(10,10), 0.02, 1, i);
-                //ue.scaleConst({-0.4,-0.4});
             }
             if (kp->scancode==Keyboard::Scancode::A) {
-                ue.scale(ue.getScale()-Vector2f(10,10), 0.02, 1, i);
             }
         }
     }
@@ -71,18 +80,12 @@ void Game::pollEvents() {
 void Game::render() {
     window.setView(mainView);
     this->window.clear(sf::Color(150, 150, 150, 0));
-    RectangleShape rect1;
-    rect1.setPosition(mainView.getCenter()-mainView.getSize()/2.f);
-    rect1.setSize({900,600});
-    rect1.setFillColor(sf::Color(0, 0, 255, 100));
-    window.draw(rect1);
-    ue.render(window);
-    if (UI)window.setView(UIView);
-    RectangleShape rect2;
-    rect2.setPosition(UIView.getCenter()-UIView.getSize()/2.f);
-    rect2.setSize({900,600});
-    rect2.setFillColor(sf::Color(255, 0, 0, 100));
-    window.draw(rect2);
+    if (UIb){
+        window.setView(UIView);
+        ui.render(window);
+
+    }
+
 
     this->window.display();
 }

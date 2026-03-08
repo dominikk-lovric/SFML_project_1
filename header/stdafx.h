@@ -7,6 +7,6 @@
 #include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
 #include <ctime>
-#include <time.h>
+#include <cmath>
 using namespace std;
 using namespace sf;

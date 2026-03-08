@@ -1,7 +1,5 @@
 #include "../header/UIElement.h"
 
-#include <cmath>
-
 UIElement::UIElement() {
 }
 
@@ -25,7 +23,7 @@ void UIElement::initUIElement(const Texture &texture, IntRect frame, Vector2f po
     sprite->setPosition(position);
     sprite->setScale(scale);
     bounds = sprite->getGlobalBounds();
-    scaleTo= sprite->getScale();
+    scaleTo= scale;
 }
 
 
@@ -36,7 +34,6 @@ void UIElement::render(RenderWindow& window) {
 void UIElement::update(RenderWindow& window,View& view) {
     if (sprite->getPosition()!=movePos)moveUpdate();
     if (sprite->getScale()!=scaleTo)scaleUpdate();
-    updateHover(window, view);
 }
 
 void UIElement::moveUpdate() {
@@ -76,12 +73,8 @@ Vector2f UIElement::getScale() {
     return sprite->getScale();
 }
 
-void UIElement::updateHover(RenderWindow& window, View& view) {
-    Vector2f gmp;
-    gmp=view.getCenter()-view.getSize()/2.f+Vector2f((float)Mouse::getPosition(window).x, (float)Mouse::getPosition(window).y);
-    if(sprite->getGlobalBounds().contains(gmp)) {
-        
-    }
+bool UIElement::hoverUpdate(RenderWindow& window, View& view) {
+    return (sprite->getGlobalBounds().contains(Vector2f((float)Mouse::getPosition(window).x, (float)Mouse::getPosition(window).y)+view.getCenter()-view.getSize()/2.f));
 }
 
 void UIElement::setPosition(Vector2f newPosition) {

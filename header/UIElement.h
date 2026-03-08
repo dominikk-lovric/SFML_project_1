@@ -11,6 +11,8 @@ private:
     float scaleSpeed;
     float scaleLerp;
     int scaleDir;
+
+
 public:
     UIElement();
     UIElement(const Texture& texture, IntRect frame, Vector2f position);
@@ -21,7 +23,7 @@ public:
     void update(RenderWindow& window,View& view);
     void moveUpdate();
     void scaleUpdate();
-    void updateHover(RenderWindow& window, View& view);
+    bool hoverUpdate(RenderWindow& window, View& view);
     void setPosition(Vector2f newPosition);
     void setScale(Vector2f newScale);
     void moveConst(Vector2f delta);

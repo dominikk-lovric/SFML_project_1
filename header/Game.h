@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "UIElement.h"
+#include "UI.h"
 
 
 class Game {
@@ -8,9 +8,11 @@ private:
     VideoMode vm;
     View mainView;
     View UIView;
-    bool UI;
-    UIElement ue;
-    Texture mainTexture;
+    bool UIb;
+    UI ui;
+
+    Texture blueTexture;
+    Texture redTexture;
     int i;
 public:
     Game();
