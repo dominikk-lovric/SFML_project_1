@@ -73,9 +73,7 @@ Vector2f UIElement::getScale() {
     return sprite->getScale();
 }
 
-bool UIElement::hoverUpdate(RenderWindow& window, View& view) {
-    return (sprite->getGlobalBounds().contains(Vector2f((float)Mouse::getPosition(window).x, (float)Mouse::getPosition(window).y)+view.getCenter()-view.getSize()/2.f));
-}
+
 
 void UIElement::setPosition(Vector2f newPosition) {
     sprite->setPosition(newPosition);

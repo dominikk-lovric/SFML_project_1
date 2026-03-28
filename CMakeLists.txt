@@ -20,7 +20,15 @@ add_executable(main src/main.cpp
         src/UI.cpp
         header/UI.h
         src/UIElement.cpp
-        header/UIElement.h)
+        header/UIElement.h
+        src/UIEInteractable.cpp
+        header/UIEInteractable.h
+        src/snake.cpp
+        header/snake.h
+        src/grid.cpp
+        header/grid.h
+        src/apple.cpp
+        header/apple.h)
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::System SFML::Graphics SFML::Window SFML::Audio SFML::Network)
 

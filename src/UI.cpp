@@ -42,10 +42,6 @@ void UI::scaleUIElement(int UIEl, Vector2f newScale, float speed, float lerp, in
     UIElements[UIEl].scale(newScale,speed,lerp,dir);
 }
 
-bool UI::getElementHover(int i, RenderWindow& window) {
-    return UIElements[i].hoverUpdate(window, this->view);
-}
-
 void UI::setView(View& view) {
     this->view=view;
     this->Position=view.getCenter();

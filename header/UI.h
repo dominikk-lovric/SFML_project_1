@@ -25,6 +25,5 @@ public:
     int getUIElementCount();
     View& getView();
     void scaleUIElement(int UIEl, Vector2f newScale, float speed, float lerp, int dir);
-    bool getElementHover(int i, RenderWindow& window);
 };
 

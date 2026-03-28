@@ -8,5 +8,6 @@
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <cmath>
+#include <random>
 using namespace std;
 using namespace sf;

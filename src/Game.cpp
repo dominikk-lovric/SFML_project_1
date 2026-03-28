@@ -1,6 +1,7 @@
 #include "../header/Game.h"
 Game::Game() {
     initWindow();
+    initSnake();
 }
 
 Game::~Game() {
@@ -13,8 +14,10 @@ void Game::initWindow() {
     window.create(vm, "game window", Style::Default);
     mainView.setSize({900,600});
     UIView.setSize({900,600});
+    GameOverView.setSize({900,600});
     mainView.setCenter(Vector2f(0,0)-mainView.getSize());
     UIView.setCenter(mainView.getCenter()-mainView.getSize());
+    GameOverView.setCenter(mainView.getCenter()+mainView.getSize());
     window.setView(mainView);
     UIb=false;
     if (blueTexture.loadFromFile("../../assets/blue.png")) {}
@@ -23,7 +26,16 @@ void Game::initWindow() {
     ui.addUIElement(UIElement(blueTexture, IntRect({0,0},{9,6}), UIView.getCenter(), {50,20}));
     ui.addUIElement(UIElement(redTexture, IntRect({0,0},{9,9}), UIView.getCenter()-UIView.getSize()/2.f, {30,30}));
 
+}
 
+void Game::initSnake() {
+    srand(time({}));
+    if (snakeTexture.loadFromFile("../../assets/domonster.png")) {}
+    if (appleTexture.loadFromFile("../../assets/monster_apple.png")) {}
+    grid.initGrid(mainView, 6, 4);
+    snake.initSnake(snakeTexture, Vector2i(167,167), grid.getSize(), mainView);
+    apple.initApple(appleTexture, Vector2i(255,255), grid.getSize(), grid.getCellSize(), mainView);
+    gameRunning=true;
 }
 
 RenderWindow& Game::getWindow() {
@@ -37,17 +49,19 @@ RenderWindow& Game::getWindow() {
 void Game::update(Time dt) {
     pollEvents();
     if (UIb) {
-        ui.update(window);
-        if (ui.getElementHover(0,window)) {ui.scaleUIElement(0,{100,20},0.01,1,6);
+        if (gameRunning) {
+            snake.update(dt);
+            apple.update(snake);
+            if (snake.isElementInBody(snake.getHeadPos())||((snake.getHeadPos().x<0)||(snake.getHeadPos().y<0)||(snake.getHeadPos().x>=grid.getSize().x||snake.getHeadPos().y>=grid.getSize().y))) {
+                gameRunning=false;
             }
-        else {ui.scaleUIElement(0, {50,20},0.1,1,6);
+        }else {
+            if (Keyboard::isKeyPressed(Keyboard::Key::R)) {
+                gameRunning=true;
+                initSnake();
             }
-        if (ui.getElementHover(1,window)) {ui.scaleUIElement(1,{50,50},0.03,0.9975,3);
-        }
-        else {ui.scaleUIElement(1, {30,30},0.03,0.9975,3);
         }
     }
-
 }
 
 void Game::pollEvents() {
@@ -74,22 +88,27 @@ void Game::pollEvents() {
 }
 
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 void Game::render() {
-    window.setView(mainView);
-    this->window.clear(sf::Color(150, 150, 150, 0));
-    if (UIb){
-        window.setView(UIView);
-        ui.render(window);
-
+    if (UIb){window.setView(mainView);
+        this->window.clear(sf::Color(150, 150, 150, 0));
+        grid.render(window);
+        apple.render(window);
+        snake.render(window);
+        if (!gameRunning) {
+            window.setView(GameOverView);
+            RectangleShape redScreen;
+            redScreen.setSize({900,600});
+            redScreen.setPosition(GameOverView.getCenter()-redScreen.getSize()/2.f);
+            redScreen.setFillColor(Color(255,0,0,100));
+            window.draw(redScreen);
+        }
+        this->window.display();
     }
-
-
-    this->window.display();
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

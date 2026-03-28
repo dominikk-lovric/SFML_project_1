@@ -23,7 +23,6 @@ public:
     void update(RenderWindow& window,View& view);
     void moveUpdate();
     void scaleUpdate();
-    bool hoverUpdate(RenderWindow& window, View& view);
     void setPosition(Vector2f newPosition);
     void setScale(Vector2f newScale);
     void moveConst(Vector2f delta);
