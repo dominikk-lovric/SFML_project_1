@@ -25,7 +25,7 @@ void Game::initWindow() {
     ui.setView(UIView);
     ui.addUIElement(UIElement(blueTexture, IntRect({0,0},{9,6}), UIView.getCenter(), {50,20}));
     ui.addUIElement(UIElement(redTexture, IntRect({0,0},{9,9}), UIView.getCenter()-UIView.getSize()/2.f, {30,30}));
-
+    UIb=true;
 }
 
 void Game::initSnake() {
